@@ -138,14 +138,15 @@ export default function Home() {
     <main className="site-shell">
       {webShot && <div className="web-shot" aria-hidden="true"><span className="web-shot-single" /></div>}
       <header className="site-header">
+        <p className="sr-only">Indra Kurniawan — Web Developer and SEO Specialist in Indonesia</p>
         <a href="#home" className="brand" aria-label="Indra home"><span className="brand-mark">I</span><span>INDRA<span className="brand-dot">{"//"}</span>HERO</span></a>
         <nav className={`main-nav ${menuOpen ? "is-open" : ""}`} aria-label="Main navigation">{navItems.map((item) => <a key={item} href={`#${item.toLowerCase()}`} onClick={navigateToSection}>{item}</a>)}</nav>
         <div className="header-actions"><button type="button" className={`theme-toggle ${themeTransition ? "is-switching" : ""}`} onClick={toggleTheme} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}>{theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}</button><a className="header-cta" href="#contact" onClick={navigateToSection}>Let&apos;s talk <ArrowUpRight size={15} /></a><button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation menu">{menuOpen ? <X size={21} /> : <Menu size={21} />}</button></div>
       </header>
 
-      <section id="home" className="hero section-pad"><div className="hero-grid" aria-hidden="true" />
+      <section id="home" className="hero section-pad" aria-labelledby="hero-title"><div className="hero-grid" aria-hidden="true" />
         <div className="hero-copy"><motion.div className="eyebrow" {...(reduceMotion ? {} : { initial: { opacity: 0, x: -16 }, animate: { opacity: 1, x: 0 }, transition: { duration: 0.7 } })}><span className="eyebrow-line" /> Web Developer <span className="eyebrow-slash">/</span> SEO Specialist</motion.div>
-          <motion.h1 {...(reduceMotion ? {} : { initial: { opacity: 0, y: 22 }, animate: { opacity: 1, y: 0 }, transition: { delay: 0.1, duration: 0.7 } })}>Building digital<br />experiences with<br /><em>heroic impact.</em></motion.h1>
+          <motion.h1 id="hero-title" {...(reduceMotion ? {} : { initial: { opacity: 0, y: 22 }, animate: { opacity: 1, y: 0 }, transition: { delay: 0.1, duration: 0.7 } })}>Building digital<br />experiences with<br /><em>heroic impact.</em></motion.h1>
           <motion.p className="hero-intro" {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay: 0.35, duration: 0.7 } })}>I&apos;m Indra Kurniawan from Trenggalek, East Java — an Information Systems fresh graduate focused on fullstack development, SEO optimization, and practical digital solutions.</motion.p>
           <motion.div className="hero-actions" {...(reduceMotion ? {} : { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { delay: 0.5, duration: 0.7 } })}><a className="button button-primary" href="#projects" onClick={navigateToSection}>Explore my projects <ArrowUpRight size={17} /></a><a className="button button-ghost" href="/uploads/CV_INDRA%20KURNIAWAN_MAGANGHUB%202%20.pdf" target="_blank" rel="noreferrer"><Download size={16} /> Download my CV</a></motion.div>
         </div>
