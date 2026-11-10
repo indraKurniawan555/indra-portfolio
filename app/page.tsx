@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import {
   ArrowLeft, ArrowRight, ArrowUpRight, BriefcaseBusiness, Check, ChevronRight, Code2,
-  Download, Expand, GitBranch, Globe2, Camera, Users, Mail, Menu, Moon,
+  Download, Expand, ExternalLink, GitBranch, Globe2, Camera, Users, Mail, Menu, Moon,
   MousePointer2, Palette, Rocket, Search, Send, Shield, Sparkles, Sun, X, Zap,
 } from "lucide-react";
 
@@ -19,11 +19,40 @@ const skillGroups = [
   { label: "03 / Professional", title: "Working with intent", icon: Palette, skills: ["Microsoft Word", "Microsoft Excel", "Google Colab", "Teamwork", "Communication", "Time Management"] },
 ];
 const projects = [
-  { number: "01", title: "Outbound Gresik", description: "WordPress website for an outbound and tour provider. Applied keyword research, on-page SEO, content optimization, and technical SEO; achieved first position for the keyword “Outbound Gresik”.", tags: ["WordPress", "SEO", "Google Search Console"], category: "SEO" as ProjectCategory, accent: "orange", image: "/uploads/tampilan%20Website.jpeg" },
-  { number: "02", title: "Koperasi Merah Putih Desa Pongangan", description: "Digital cooperative information system with member data, UMKM marketplace, announcements, management structure, admin authentication, and management dashboard.", tags: ["Information System", "PHP", "MySQL"], category: "Web Development" as ProjectCategory, accent: "violet", image: "/uploads/Koperasi.jpeg" },
-  { number: "03", title: "Blog Ayam Bakar Pak D", description: "A content website with a clear editorial structure and performance-focused experience, supported by SEO monitoring and optimization.", tags: ["WordPress", "SEO", "Performance"], category: "Web Development" as ProjectCategory, accent: "blue", image: "/uploads/Blog%20Ayam%20Bakar%20Pak%20D.jpeg" },
-  { number: "04", title: "Budaya Indonesia", description: "Android project exploring Indonesian culture through a native mobile experience and REST API integration.", tags: ["Kotlin", "REST API", "Android"], category: "Mobile" as ProjectCategory, accent: "pink", image: "/uploads/Budaya%20Indonesia.jpeg" },
-  { number: "05", title: "Technotainment", description: "Information platform developed through UKM-FT ITC to share competitions and provide participant registration.", tags: ["PHP", "Web Development", "Content"], category: "Web Development" as ProjectCategory, accent: "cyan", image: "/uploads/foto%20itc.jpeg" },
+  {
+    number: "01", title: "Outbound Gresik", description: "WordPress website for an outbound and tour provider. Applied keyword research, on-page SEO, content optimization, and technical SEO; achieved first position for the keyword “Outbound Gresik”.",
+    tags: ["WordPress", "SEO", "Google Search Console"], category: "SEO" as ProjectCategory, accent: "orange", image: "/uploads/tampilan%20Website.jpeg", link: "https://beadoutbound.com/outbound-gresik/",
+    tests: [
+      { label: "Search Console evidence", note: "Search visibility and ranking progress after SEO optimization.", image: "/uploads/SEO%20BEAD.jpeg" },
+      { label: "Search performance report", note: "Additional search performance snapshot for the project.", image: "/uploads/SEO%20BEAD%20crop.jpeg" },
+      { label: "Desktop performance", note: "PageSpeed result for the optimized website.", image: "/uploads/pagespeed1_outbound.jpeg" },
+      { label: "Mobile performance", note: "Mobile PageSpeed result for the optimized website.", image: "/uploads/pagespeed2_outbond.jpeg" },
+    ],
+  },
+  {
+    number: "02", title: "Koperasi Merah Putih Desa Pongangan", description: "Digital cooperative information system with member data, UMKM marketplace, announcements, management structure, admin authentication, and management dashboard.",
+    tags: ["Information System", "PHP", "MySQL"], category: "Web Development" as ProjectCategory, accent: "violet", image: "/uploads/Koperasi.jpeg",
+    tests: [
+      { label: "SEO monitoring", note: "Search optimization evidence for the KOPDES information system.", image: "/uploads/SEO%20KOPDES.jpeg" },
+      { label: "Search report", note: "Focused search visibility snapshot for the project.", image: "/uploads/SEO%20KOPDES%20crop.jpeg" },
+    ],
+  },
+  {
+    number: "03", title: "Blog Ayam Bakar Pak D", description: "A content website with a clear editorial structure and performance-focused experience, supported by SEO monitoring and optimization.",
+    tags: ["WordPress", "SEO", "Performance"], category: "Web Development" as ProjectCategory, accent: "blue", image: "/uploads/Blog%20Ayam%20Bakar%20Pak%20D.jpeg",
+    tests: [
+      { label: "Desktop performance", note: "PageSpeed result used to improve the website experience.", image: "/uploads/Pagespeed_blogpakd.jpeg" },
+      { label: "Mobile performance", note: "Mobile PageSpeed result for the content website.", image: "/uploads/pagespeed2_blogpakd.jpeg" },
+    ],
+  },
+  {
+    number: "04", title: "Budaya Indonesia", description: "Android project exploring Indonesian culture through a native mobile experience and REST API integration.",
+    tags: ["Kotlin", "REST API", "Android"], category: "Mobile" as ProjectCategory, accent: "pink", image: "/uploads/Budaya%20Indonesia.jpeg", tests: [],
+  },
+  {
+    number: "05", title: "Technotainment", description: "Information platform developed through UKM-FT ITC to share competitions and provide participant registration.",
+    tags: ["PHP", "Web Development", "Content"], category: "Web Development" as ProjectCategory, accent: "cyan", image: "/uploads/foto%20itc.jpeg", tests: [],
+  },
 ];
 const timeline = [
   { period: "Feb 2025 – Jun 2025", title: "Web Developer · CV Besar Anugrah Djaya IT Consultant", description: "Developed Outbound Gresik with WordPress, improved structure and performance, and implemented SEO that reached first position for “Outbound Gresik”.", icon: Rocket },
@@ -34,20 +63,6 @@ const fadeUp: Variants = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1,
 const photoSlots = [
   { label: "Portrait / 01", caption: "Indra Kurniawan — Web Developer & SEO Specialist", tone: "portrait", src: "/uploads/Foto.jpeg" },
   { label: "Field notes / 02", caption: "Practical work and professional growth", tone: "field", src: "/uploads/Foto%20KP.jpeg" },
-  { label: "Project / 03", caption: "Outbound Gresik — WordPress and SEO", tone: "lab", src: "/uploads/tampilan%20Website.jpeg" },
-  { label: "Project / 04", caption: "Koperasi Merah Putih Desa Pongangan", tone: "field", src: "/uploads/Koperasi.jpeg" },
-  { label: "SEO evidence / 05", caption: "Search performance for Outbound Gresik", tone: "lab", src: "/uploads/SEO%20BEAD.jpeg" },
-  { label: "SEO evidence / 06", caption: "KOPDES Pongangan search optimization", tone: "portrait", src: "/uploads/SEO%20KOPDES.jpeg" },
-  { label: "Project / 07", caption: "Blog Ayam Bakar Pak D", tone: "field", src: "/uploads/Blog%20Ayam%20Bakar%20Pak%20D.jpeg" },
-  { label: "Project / 08", caption: "Technotainment — UKM-FT ITC", tone: "lab", src: "/uploads/foto%20itc.jpeg" },
-  { label: "Project / 09", caption: "Budaya Indonesia — Android study club", tone: "portrait", src: "/uploads/Budaya%20Indonesia.jpeg" },
-  { label: "Performance / 10", caption: "PageSpeed and website optimization results", tone: "field", src: "/uploads/pagespeed1_outbound.jpeg" },
-  { label: "SEO evidence / 11", caption: "SEO progress and search visibility", tone: "lab", src: "/uploads/seo.jpeg" },
-  { label: "SEO evidence / 12", caption: "KOPDES Pongangan SEO report", tone: "portrait", src: "/uploads/SEO%20KOPDES%20crop.jpeg" },
-  { label: "SEO evidence / 13", caption: "Outbound Gresik SEO report", tone: "field", src: "/uploads/SEO%20BEAD%20crop.jpeg" },
-  { label: "Performance / 14", caption: "Blog Ayam Bakar Pak D PageSpeed result", tone: "lab", src: "/uploads/Pagespeed_blogpakd.jpeg" },
-  { label: "Performance / 15", caption: "Outbound website mobile performance", tone: "portrait", src: "/uploads/pagespeed2_outbond.jpeg" },
-  { label: "Performance / 16", caption: "Blog Ayam Bakar Pak D performance result", tone: "field", src: "/uploads/pagespeed2_blogpakd.jpeg" },
 ];
 
 export default function Home() {
@@ -57,6 +72,7 @@ export default function Home() {
   const [filter, setFilter] = useState<ProjectCategory>("All");
   const [sent, setSent] = useState(false);
   const [activePhoto, setActivePhoto] = useState<number | null>(null);
+  const [activeProject, setActiveProject] = useState<(typeof projects)[number] | null>(null);
   const [uploadedPhoto, setUploadedPhoto] = useState<string | null>(null);
   const [themeTransition, setThemeTransition] = useState(false);
   const [webShot, setWebShot] = useState(false);
@@ -75,9 +91,21 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (activePhoto === null) return;
+    const updateCursor = (event: PointerEvent) => {
+      document.documentElement.style.setProperty("--cursor-x", `${event.clientX}px`);
+      document.documentElement.style.setProperty("--cursor-y", `${event.clientY}px`);
+    };
+    window.addEventListener("pointermove", updateCursor, { passive: true });
+    return () => window.removeEventListener("pointermove", updateCursor);
+  }, []);
+
+  useEffect(() => {
+    if (activePhoto === null && activeProject === null) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setActivePhoto(null);
+      if (event.key === "Escape") {
+        setActivePhoto(null);
+        setActiveProject(null);
+      }
     };
     document.addEventListener("keydown", onKeyDown);
     document.body.style.overflow = "hidden";
@@ -85,7 +113,7 @@ export default function Home() {
       document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = "";
     };
-  }, [activePhoto]);
+  }, [activePhoto, activeProject]);
 
   function navigatePhoto(direction: 1 | -1) {
     setActivePhoto((current) => current === null ? 0 : (current + direction + galleryPhotos.length) % galleryPhotos.length);
@@ -160,7 +188,7 @@ export default function Home() {
 
       <section id="gallery" className="gallery section-pad"><div className="section-kicker">Through my lens <span>/ 03</span></div><div className="section-heading-row gallery-heading"><h2>Moments behind<br /><em>the mission.</em></h2><p>A visual corner for the person, process, and little sparks that shape the work.</p></div><div className="photo-grid">{galleryPhotos.map((photo, index) => <motion.button type="button" className={`photo-card photo-${photo.tone}`} key={photo.label} onClick={() => setActivePhoto(index)} {...motionProps} transition={{ delay: index * 0.12 }} aria-label={`Open ${photo.label}`}><span className="photo-placeholder"><img src={photo.src} alt={photo.caption} onError={(event) => { event.currentTarget.style.display = "none"; }} /><span className="photo-cross" /><span className="photo-orbit" /></span><span className="photo-overlay"><span>{photo.label}</span><Expand size={17} /></span><span className="photo-caption">{photo.caption}</span></motion.button>)}</div><div className="photo-upload-panel"><input ref={photoInputRef} className="photo-input" type="file" accept="image/*" onChange={handlePhotoUpload} /><button type="button" className="button button-primary" onClick={() => photoInputRef.current?.click()}><Camera size={16} /> {uploadedPhoto ? "Change hero photo" : "Add your photo"}</button>{uploadedPhoto && <button type="button" className="photo-remove" onClick={() => setUploadedPhoto(null)}>Remove photo</button>}<p className="gallery-note"><Camera size={15} /> Upload a portrait and activate the Iron Man-inspired HUD effect.</p></div></section>
 
-      <section id="projects" className="projects section-pad"><div className="section-kicker">Selected work <span>/ 03</span></div><div className="section-heading-row projects-heading"><h2>Proof of<br /><em>possibility.</em></h2><p>Every project is a chance to make something simpler, sharper, and more useful.</p></div><div className="filter-row" role="group" aria-label="Filter projects">{(["All", "Web Development", "SEO", "Mobile"] as ProjectCategory[]).map((item) => <button key={item} className={filter === item ? "filter-active" : ""} onClick={() => setFilter(item)}>{item}</button>)}</div><div className="project-grid">{visibleProjects.map((project) => <motion.article className={`project-card accent-${project.accent}`} key={project.title} layout {...motionProps}><div className="project-top"><span>{project.number} / 05</span><ArrowUpRight size={19} /></div><div className="project-visual"><div className="mockup-window"><span /><span /><span /><img className="project-image" src={project.image} alt={`${project.title} project preview`} /></div></div><div className="project-info"><span className="project-category">{project.category}</span><h3>{project.title}</h3><p>{project.description}</p><div className="tag-row">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></div></motion.article>)}</div></section>
+      <section id="projects" className="projects section-pad"><div className="section-kicker">Selected work <span>/ 03</span></div><div className="section-heading-row projects-heading"><h2>Proof of<br /><em>possibility.</em></h2><p>Every project is a chance to make something simpler, sharper, and more useful. Select a project to inspect its testing evidence.</p></div><div className="filter-row" role="group" aria-label="Filter projects">{(["All", "Web Development", "SEO", "Mobile"] as ProjectCategory[]).map((item) => <button key={item} className={filter === item ? "filter-active" : ""} onClick={() => setFilter(item)}>{item}</button>)}</div><div className="project-grid">{visibleProjects.map((project) => <motion.article className={`project-card accent-${project.accent}`} key={project.title} layout {...motionProps}><button type="button" className="project-card-button" onClick={() => setActiveProject(project)} aria-label={`Open details for ${project.title}`}><div className="project-top"><span>{project.number} / 05</span><ArrowUpRight size={19} /></div><div className="project-visual"><div className="mockup-window"><span /><span /><span /><img className="project-image" src={project.image} alt={`${project.title} project preview`} /></div></div><div className="project-info"><span className="project-category">{project.category}</span><h3>{project.title}</h3><p>{project.description}</p><div className="tag-row">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div><span className="project-inspect">View project details <ChevronRight size={15} /></span></div></button></motion.article>)}</div></section>
 
       <section id="experience" className="experience section-pad section-dark"><div className="section-kicker">The journey <span>/ 04</span></div><div className="experience-layout"><div><h2>Still early.<br /><em>Already moving.</em></h2><p className="experience-lead">A timeline of learning, building, and showing up for the work.</p></div><div className="timeline">{timeline.map((item, index) => { const Icon = item.icon; return <motion.div className="timeline-item" key={item.title} {...motionProps} transition={{ delay: index * 0.15 }}><div className="timeline-marker"><Icon size={16} /></div><div><span className="timeline-period">{item.period}</span><h3>{item.title}</h3><p>{item.description}</p></div></motion.div>; })}</div></div><div className="education-strip"><Globe2 size={18} /><span>Education</span><strong>S1 Sistem Informasi · Universitas Trunojoyo Madura</strong><span className="education-status">Fresh graduate</span></div></section>
 
@@ -169,6 +197,8 @@ export default function Home() {
       <footer className="site-footer"><a href="#home" className="brand"><span className="brand-mark">I</span><span>INDRA<span className="brand-dot">{"//"}</span>HERO</span></a><span>Designed & built with intent · 2025</span><a href="#home" className="back-top"><MousePointer2 size={15} /> Back to top</a></footer>
 
       {activePhoto !== null && <div className="photo-lightbox" role="dialog" aria-modal="true" aria-label="Photo preview" onClick={() => setActivePhoto(null)}><div className="lightbox-panel" onClick={(event) => event.stopPropagation()}><button className="lightbox-close" type="button" onClick={() => setActivePhoto(null)} aria-label="Close photo preview"><X size={20} /></button><div className={`lightbox-art photo-${galleryPhotos[activePhoto].tone}`}><span className="photo-placeholder"><img src={galleryPhotos[activePhoto].src} alt={galleryPhotos[activePhoto].caption} /><span className="photo-cross" /><span className="photo-orbit" /></span></div><div className="lightbox-meta"><div><span>{galleryPhotos[activePhoto].label}</span><h3>{galleryPhotos[activePhoto].caption}</h3></div><div className="lightbox-controls"><button type="button" onClick={() => navigatePhoto(-1)} aria-label="Previous photo"><ArrowLeft size={18} /></button><span>{String(activePhoto + 1).padStart(2, "0")} / {String(galleryPhotos.length).padStart(2, "0")}</span><button type="button" onClick={() => navigatePhoto(1)} aria-label="Next photo"><ArrowRight size={18} /></button></div></div></div></div>}
+
+      {activeProject && <div className="project-lightbox" role="dialog" aria-modal="true" aria-label={`${activeProject.title} details`} onClick={() => setActiveProject(null)}><div className="project-detail-panel" onClick={(event) => event.stopPropagation()}><button className="lightbox-close" type="button" onClick={() => setActiveProject(null)} aria-label="Close project details"><X size={20} /></button><div className={`project-detail-visual accent-${activeProject.accent}`}><img src={activeProject.image} alt={`${activeProject.title} preview`} /></div><div className="project-detail-copy"><span className="project-category">{activeProject.category}</span><h2>{activeProject.title}</h2><p>{activeProject.description}</p><div className="tag-row">{activeProject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>{activeProject.link && <a className="button button-primary project-live-link" href={activeProject.link} target="_blank" rel="noreferrer">Open live project <ExternalLink size={16} /></a>}<div className="testing-heading"><span>Testing evidence</span><strong>{activeProject.tests.length ? `${activeProject.tests.length} result${activeProject.tests.length === 1 ? "" : "s"}` : "Not available"}</strong></div>{activeProject.tests.length ? <div className="testing-grid">{activeProject.tests.map((test) => <figure key={test.label} className="testing-card"><img src={test.image} alt={test.label} /><figcaption><strong>{test.label}</strong><span>{test.note}</span></figcaption></figure>)}</div> : <p className="testing-empty">No testing screenshot has been added for this project yet.</p>}</div></div></div>}
 
       {themeTransition && <div className={`theme-epic-overlay theme-epic-${theme}`} aria-hidden="true"><div className="theme-epic-burst" /><div className="theme-epic-villain"><div className="theme-epic-head"><span className="theme-epic-eye theme-epic-eye-left" /><span className="theme-epic-eye theme-epic-eye-right" /></div><div className="theme-epic-shoulders" /><div className="theme-epic-gauntlet"><span className="infinity-stone stone-space" /><span className="infinity-stone stone-mind" /><span className="infinity-stone stone-reality" /><span className="infinity-stone stone-power" /><span className="infinity-stone stone-time" /><span className="infinity-stone stone-soul" /></div></div><div className="theme-epic-copy"><strong>THANOS PROTOCOL</strong><span>{theme === "light" ? "LIGHT REALM" : "DARK REALM"}{" // "}INFINITY STONES ONLINE</span></div></div>}
     </main>
