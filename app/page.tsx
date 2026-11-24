@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import {
@@ -14,9 +14,11 @@ type ProjectCategory = "All" | "Web Development" | "SEO" | "Mobile";
 
 const navItems = ["Home", "About", "Skills", "Gallery", "Projects", "Experience", "Contact"];
 const skillGroups = [
-  { label: "01 / Development", title: "Building useful systems", icon: Code2, skills: ["HTML", "PHP", "Python", "Kotlin", "WordPress", "MySQL"] },
-  { label: "02 / SEO", title: "Growing visibility", icon: Search, skills: ["Keyword Research", "On-page SEO", "Content Optimization", "Technical SEO", "Google Search Console"] },
-  { label: "03 / Professional", title: "Working with intent", icon: Palette, skills: ["Microsoft Word", "Microsoft Excel", "Google Colab", "Teamwork", "Communication", "Time Management"] },
+  { label: "01 / Frontend", title: "Building modern interfaces", icon: Code2, skills: ["HTML", "CSS", "JavaScript", "Next.js"] },
+  { label: "02 / Backend", title: "Building server-side systems", icon: Code2, skills: ["PHP", "Laravel", "MySQL"] },
+  { label: "03 / Mobile", title: "Building mobile applications", icon: Code2, skills: ["Kotlin"] },
+  { label: "04 / SEO", title: "Growing visibility", icon: Search, skills: ["SEO", "Google Search Console", "Google Trends"] },
+  { label: "05 / Tools", title: "Using creative tools", icon: Palette, skills: ["MS Word", "MS Office", "Canva"] },
 ];
 const projects = [
   {
@@ -60,17 +62,22 @@ const certificates = [
   { number: "03", title: "Organization Certificate", issuer: "UKM-FT ITC", image: "/uploads/Sertif%20Pengurus.jpeg", isPdf: false },
   { number: "04", title: "Achievement Certificate", issuer: "Achievement record", image: "/uploads/Sertif%20Prestasi%20Rotate.jpeg", isPdf: false },
   { number: "05", title: "TOEFL Certificate", issuer: "English proficiency", image: "/uploads/Sertif%20Toefl.jpeg", isPdf: false },
-  { number: "06", title: "DQLab Free Class", issuer: "DQLab", image: "/uploads/certificate-DQLABFREECLASS01QNHIPR.pdf", isPdf: true },
+  { number: "06", title: "DQLab Free Class", issuer: "DQLab", image: "/uploads/certificate-DQLABFREECLASS01QNHIPR.png", isPdf: false },
+  { number: "07", title: "DQLab Introduction to Programming", issuer: "DQLab", image: "/uploads/certificate-DQLABINTP1AJTADC.png", isPdf: false },
+  { number: "08", title: "DQLab Introduction to R", issuer: "DQLab", image: "/uploads/certificate-DQLABINTR1CQRCVQ.png", isPdf: false },
+  { number: "09", title: "DQLab SQL", issuer: "DQLab", image: "/uploads/certificate-DQLABSQLT1WHPRVL.png", isPdf: false },
 ];
 const timeline = [
+  { period: "September 2026 – Present", title: "Search Engine Optimization Specialist · CV Al Mulk Pangan Nusantara", description: "Manage two Ayam Bakar Pak'D blog websites using WordPress and Next.js, publish SEO content, and improve search performance through Google Search Console. Also contribute to Laravel and Tailwind CSS website development with responsive, SEO-friendly templates.", icon: Search },
   { period: "Feb 2025 – Jun 2025", title: "Web Developer · CV Besar Anugrah Djaya IT Consultant", description: "Developed Outbound Gresik with WordPress, improved structure and performance, and implemented SEO that reached first position for “Outbound Gresik”.", icon: Rocket },
   { period: "Jan 2025 – Feb 2025", title: "Business Analyst · Dinas Komunikasi dan Informatika Kota Kediri", description: "Prepared technical and functional documentation, testing plans, user manuals, and workflow guides for SIMALIK, PECUT, and Web KediriKota.", icon: BriefcaseBusiness },
-  { period: "2024", title: "Research & Development · UKM-FT ITC", description: "Managed the organization website and developed Technotainment, an information and competition registration platform.", icon: GitBranch },
+  { period: "2025", title: "Research & Development · UKM-FT ITC", description: "Research project using machine learning for sentiment analysis on public opinion data. Advanced knowledge in data preprocessing, topic modeling, and visualization techniques using Google Colab.", icon: GitBranch },
 ];
 const fadeUp: Variants = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: "easeOut" } } };
 const photoSlots = [
-  { label: "Portrait / 01", caption: "Indra Kurniawan — Web Developer & SEO Specialist", tone: "portrait", src: "/uploads/Foto.jpeg" },
-  { label: "Field notes / 02", caption: "Practical work and professional growth", tone: "field", src: "/uploads/Foto%20KP.jpeg" },
+  { label: "Portrait / 01", caption: "Graduation moment", tone: "portrait", src: "/uploads/foto wisuda.jpeg" },
+  { label: "Field notes / 02", caption: "Practical work", tone: "field", src: "/uploads/foto%20KP.jpeg" },
+  { label: "Internship / 03", caption: "Internship moments captured", tone: "practice", src: "/uploads/foto%20magang.jpeg" },
 ];
 
 export default function Home() {
@@ -81,15 +88,13 @@ export default function Home() {
   const [sent, setSent] = useState(false);
   const [activePhoto, setActivePhoto] = useState<number | null>(null);
   const [activeProject, setActiveProject] = useState<(typeof projects)[number] | null>(null);
-  const [uploadedPhoto, setUploadedPhoto] = useState<string | null>(null);
   const [themeTransition, setThemeTransition] = useState(false);
   const [webShot, setWebShot] = useState(false);
-  const photoInputRef = useRef<HTMLInputElement>(null);
   const webShotTimerRef = useRef<number | null>(null);
   const webScrollTimerRef = useRef<number | null>(null);
   const webTargetTimerRef = useRef<number | null>(null);
   const visibleProjects = useMemo(() => filter === "All" ? projects : projects.filter((project) => project.category === filter), [filter]);
-  const galleryPhotos = useMemo(() => uploadedPhoto ? [{ label: "Your signal / 00", caption: "Personal hero mode", tone: "custom", src: uploadedPhoto }, ...photoSlots] : photoSlots, [uploadedPhoto]);
+  const galleryPhotos = useMemo(() => photoSlots, []);
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("indra-theme");
@@ -125,13 +130,6 @@ export default function Home() {
 
   function navigatePhoto(direction: 1 | -1) {
     setActivePhoto((current) => current === null ? 0 : (current + direction + galleryPhotos.length) % galleryPhotos.length);
-  }
-  function handlePhotoUpload(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (!file || !file.type.startsWith("image/")) return;
-    const reader = new FileReader();
-    reader.onload = () => setUploadedPhoto(typeof reader.result === "string" ? reader.result : null);
-    reader.readAsDataURL(file);
   }
   const motionProps = reduceMotion ? {} : { variants: fadeUp, initial: "hidden" as const, whileInView: "visible" as const, viewport: { once: true, amount: 0.15 } };
 
@@ -200,7 +198,7 @@ export default function Home() {
           <div className="hero-rule" />
           <div className="hero-mission-list"><span><strong>BUILD</strong> useful systems</span><span><strong>BOOST</strong> search visibility</span><span><strong>LAUNCH</strong> with intention</span></div>
           <div className="hero-meta"><span>Based in Indonesia</span><strong>Available for opportunities</strong></div>
-          <div className="hero-actions"><a className="button button-primary" href="#projects" onClick={navigateToSection}>View mission log <ArrowUpRight size={17} /></a><a className="button button-ghost" href="/uploads/CV_INDRA%20KURNIAWAN_MAGANGHUB%202%20.pdf" target="_blank" rel="noreferrer"><Download size={16} /> CV</a></div>
+          <div className="hero-actions"><a className="button button-primary" href="#projects" onClick={navigateToSection}>View mission log <ArrowUpRight size={17} /></a><a className="button button-ghost" href="/uploads/CV_INDRA KURNIAWAN_MAGANGHUB 2.pdf" target="_blank" rel="noreferrer"><Download size={16} /> CV</a></div>
         </motion.div>
         <div className="hero-bottom-note">Scroll to deploy <ArrowRight size={14} /></div>
       </section>
@@ -209,7 +207,7 @@ export default function Home() {
 
       <section id="skills" className="skills section-pad section-dark"><div className="section-kicker">My arsenal <span>/ 02</span></div><div className="section-heading-row"><h2>Tools for turning<br /><em>ideas into impact.</em></h2><p>From interface to indexability, I work across the full digital experience.</p></div><div className="skill-grid">{skillGroups.map((group, index) => { const Icon = group.icon; return <motion.article className={`skill-card skill-card-${index + 1}`} key={group.label} {...motionProps} transition={{ delay: index * 0.1 }}><div className="skill-card-top"><span>{group.label}</span><Icon size={21} /></div><h3>{group.title}</h3><div className="skill-list">{group.skills.map((skill) => <span key={skill}>{skill}</span>)}</div></motion.article>; })}</div></section>
 
-      <section id="gallery" className="gallery section-pad"><div className="section-kicker">Hero files <span>/ 03</span></div><div className="section-heading-row gallery-heading"><h2>Moments behind<br /><em>the mission.</em></h2><p>A superhero dossier for the person, process, and little sparks that power the work.</p></div><div className="photo-grid">{galleryPhotos.map((photo, index) => <motion.button type="button" className={`photo-card photo-${photo.tone}`} key={photo.label} onClick={() => setActivePhoto(index)} {...motionProps} transition={{ delay: index * 0.12 }} aria-label={`Open ${photo.label}`}><span className="photo-placeholder"><img src={photo.src} alt={photo.caption} onError={(event) => { event.currentTarget.style.display = "none"; }} /></span><span className="photo-overlay"><span>{photo.label}</span><Expand size={17} /></span><span className="photo-caption">{photo.caption}</span></motion.button>)}</div><div className="photo-upload-panel"><input ref={photoInputRef} className="photo-input" type="file" accept="image/*" onChange={handlePhotoUpload} /><button type="button" className="button button-primary" onClick={() => photoInputRef.current?.click()}><Camera size={16} /> {uploadedPhoto ? "Change hero photo" : "Add your photo"}</button>{uploadedPhoto && <button type="button" className="photo-remove" onClick={() => setUploadedPhoto(null)}>Remove photo</button>}<p className="gallery-note"><Camera size={15} /> Add a portrait to your hero dossier.</p></div></section>
+      <section id="gallery" className="gallery section-pad"><div className="section-kicker">Hero files <span>/ 03</span></div><div className="section-heading-row gallery-heading"><h2>Moments behind<br /><em>the mission.</em></h2><p>A superhero dossier for the person, process, and little sparks that power the work.</p></div><div className="photo-grid">{galleryPhotos.map((photo, index) => <motion.button type="button" className={`photo-card photo-${photo.tone}`} key={photo.label} onClick={() => setActivePhoto(index)} {...motionProps} transition={{ delay: index * 0.12 }} aria-label={`Open ${photo.label}`}><span className="photo-placeholder"><img src={photo.src} alt={photo.caption} onError={(event) => { event.currentTarget.style.display = "none"; }} /></span><span className="photo-overlay"><span>{photo.label}</span><Expand size={17} /></span><span className="photo-caption">{photo.caption}</span></motion.button>)}</div></section>
 
       <section id="projects" className="projects section-pad"><div className="section-kicker">Selected work <span>/ 03</span></div><div className="section-heading-row projects-heading"><h2>Proof of<br /><em>possibility.</em></h2><p>Every project is a chance to make something simpler, sharper, and more useful. Select a project to inspect its testing evidence.</p></div><div className="filter-row" role="group" aria-label="Filter projects">{(["All", "Web Development", "SEO", "Mobile"] as ProjectCategory[]).map((item) => <button key={item} className={filter === item ? "filter-active" : ""} onClick={() => setFilter(item)}>{item}</button>)}</div><div className="project-grid">{visibleProjects.map((project) => <motion.article className={`project-card accent-${project.accent}`} key={project.title} layout {...motionProps}><button type="button" className="project-card-button" onClick={() => setActiveProject(project)} aria-label={`Open details for ${project.title}`}><div className="project-top"><span>{project.number} / 05</span><ArrowUpRight size={19} /></div><div className="project-visual"><div className="mockup-window"><span /><span /><span /><img className="project-image" src={project.image} alt={`${project.title} project preview`} /></div></div><div className="project-info"><span className="project-category">{project.category}</span><h3>{project.title}</h3><p>{project.description}</p><div className="tag-row">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div><span className="project-inspect">View project details <ChevronRight size={15} /></span></div></button></motion.article>)}</div></section>
 
@@ -217,7 +215,7 @@ export default function Home() {
 
       <section id="experience" className="experience section-pad section-dark"><div className="section-kicker">The journey <span>/ 04</span></div><div className="experience-layout"><div><h2>Still early.<br /><em>Already moving.</em></h2><p className="experience-lead">A timeline of learning, building, and showing up for the work.</p></div><div className="timeline">{timeline.map((item, index) => { const Icon = item.icon; return <motion.div className="timeline-item" key={item.title} {...motionProps} transition={{ delay: index * 0.15 }}><div className="timeline-marker"><Icon size={16} /></div><div><span className="timeline-period">{item.period}</span><h3>{item.title}</h3><p>{item.description}</p></div></motion.div>; })}</div></div><div className="education-strip"><Globe2 size={18} /><span>Education</span><strong>S1 Sistem Informasi · Universitas Trunojoyo Madura</strong><span className="education-status">Fresh graduate</span></div></section>
 
-      <section id="contact" className="contact section-pad"><div className="section-kicker">Open channel <span>/ 05</span></div><div className="contact-layout"><div><h2>Let&apos;s build<br /><em>what&apos;s next.</em></h2><p className="contact-lead">Have a project, an idea, or a challenge worth solving? Send a signal. I&apos;d love to hear about it.</p><div className="social-links"><a href="mailto:indrasaya520@gmail.com"><Mail size={17} /> indrasaya520@gmail.com</a><a href="tel:+6285257433490"><Users size={17} /> 085-257-433-490</a><a href="/uploads/CV_INDRA%20KURNIAWAN_MAGANGHUB%202%20.pdf" target="_blank" rel="noreferrer"><Download size={17} /> Download CV <ArrowUpRight size={14} /></a></div></div><form className="contact-form" onSubmit={submitContact}><label>Name<input name="name" type="text" placeholder="Your name" required /></label><label>Email<input name="email" type="email" placeholder="you@example.com" required /></label><label>Message<textarea name="message" placeholder="Tell me a little about your project..." rows={4} required /></label><button className="button button-primary" type="submit">{sent ? <><Check size={17} /> Signal received</> : <>Send a signal <Send size={16} /></>}</button>{sent && <p className="form-note">Thanks — your message is ready to start the conversation.</p>}</form></div></section>
+      <section id="contact" className="contact section-pad"><div className="section-kicker">Open channel <span>/ 05</span></div><div className="contact-layout"><div><h2>Let&apos;s build<br /><em>what&apos;s next.</em></h2><p className="contact-lead">Have a project, an idea, or a challenge worth solving? Send a signal. I&apos;d love to hear about it.</p><div className="social-links"><a href="mailto:indrasaya520@gmail.com"><Mail size={17} /> indrasaya520@gmail.com</a><a href="tel:+6285257433490"><Users size={17} /> 085-257-433-490</a><a href="/uploads/CV_INDRA KURNIAWAN_MAGANGHUB 2.pdf" target="_blank" rel="noreferrer"><Download size={17} /> Download CV <ArrowUpRight size={14} /></a></div></div><form className="contact-form" onSubmit={submitContact}><label>Name<input name="name" type="text" placeholder="Your name" required /></label><label>Email<input name="email" type="email" placeholder="you@example.com" required /></label><label>Message<textarea name="message" placeholder="Tell me a little about your project..." rows={4} required /></label><button className="button button-primary" type="submit">{sent ? <><Check size={17} /> Signal received</> : <>Send a signal <Send size={16} /></>}</button>{sent && <p className="form-note">Thanks — your message is ready to start the conversation.</p>}</form></div></section>
 
       <footer className="site-footer"><a href="#home" className="brand"><span className="brand-mark">I</span><span>INDRA<span className="brand-dot">{"//"}</span>HERO</span></a><span>Designed & built with intent · 2025</span><a href="#home" className="back-top"><MousePointer2 size={15} /> Back to top</a></footer>
 
