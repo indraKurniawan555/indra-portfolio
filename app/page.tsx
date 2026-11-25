@@ -11,6 +11,18 @@ import {
 
 type Theme = "dark" | "light";
 type ProjectCategory = "All" | "Web Development" | "SEO" | "Mobile";
+type Project = {
+  number: string;
+  title: string;
+  description: string;
+  tags: string[];
+  category: ProjectCategory;
+  accent: "orange" | "violet" | "blue" | "pink" | "cyan";
+  image: string;
+  link?: string;
+  github?: string;
+  tests: Array<{ label: string; note: string; image: string }>;
+};
 
 const navItems = ["Home", "About", "Skills", "Gallery", "Projects", "Experience", "Contact"];
 const skillGroups = [
@@ -20,10 +32,10 @@ const skillGroups = [
   { label: "04 / SEO", title: "Growing visibility", icon: Search, skills: ["SEO", "Google Search Console", "Google Trends"] },
   { label: "05 / Tools", title: "Using creative tools", icon: Palette, skills: ["MS Word", "MS Office", "Canva"] },
 ];
-const projects = [
+const projects: Project[] = [
   {
     number: "01", title: "Outbound Gresik", description: "WordPress website for an outbound and tour provider. Applied keyword research, on-page SEO, content optimization, and technical SEO; achieved first position for the keyword “Outbound Gresik”.",
-    tags: ["WordPress", "SEO", "Google Search Console"], category: "SEO" as ProjectCategory, accent: "orange", image: "/uploads/tampilan%20Website.jpeg", link: "https://beadoutbound.com/outbound-gresik/",
+    tags: ["WordPress", "SEO", "Google Search Console"], category: "SEO" as ProjectCategory, accent: "orange", image: "/uploads/tampilan%20Website.jpeg", link: "https://beadoutbound.com/outbound-gresik/", github: "",
     tests: [
       { label: "Search Console evidence", note: "Search visibility and ranking progress after SEO optimization.", image: "/uploads/SEO%20BEAD.jpeg" },
       { label: "Search performance report", note: "Additional search performance snapshot for the project.", image: "/uploads/SEO%20BEAD%20crop.jpeg" },
@@ -33,7 +45,7 @@ const projects = [
   },
   {
     number: "02", title: "Koperasi Merah Putih Desa Pongangan", description: "Digital cooperative information system with member data, UMKM marketplace, announcements, management structure, admin authentication, and management dashboard.",
-    tags: ["Information System", "PHP", "MySQL"], category: "Web Development" as ProjectCategory, accent: "violet", image: "/uploads/Koperasi.jpeg",
+    tags: ["Information System", "PHP", "MySQL"], category: "Web Development" as ProjectCategory, accent: "violet", image: "/uploads/Koperasi.jpeg", link: "https://www.kopdespongangan.web.id/", github: "",
     tests: [
       { label: "SEO monitoring", note: "Search optimization evidence for the KOPDES information system.", image: "/uploads/SEO%20KOPDES.jpeg" },
       { label: "Search report", note: "Focused search visibility snapshot for the project.", image: "/uploads/SEO%20KOPDES%20crop.jpeg" },
@@ -41,7 +53,7 @@ const projects = [
   },
   {
     number: "03", title: "Blog Ayam Bakar Pak D", description: "A content website with a clear editorial structure and performance-focused experience, supported by SEO monitoring and optimization.",
-    tags: ["WordPress", "SEO", "Performance"], category: "Web Development" as ProjectCategory, accent: "blue", image: "/uploads/Blog%20Ayam%20Bakar%20Pak%20D.jpeg",
+    tags: ["WordPress", "SEO", "Performance"], category: "Web Development" as ProjectCategory, accent: "blue", image: "/uploads/Blog%20Ayam%20Bakar%20Pak%20D.jpeg", link: "https://blog.ayambakarpakde.com/", github: "",
     tests: [
       { label: "Desktop performance", note: "PageSpeed result used to improve the website experience.", image: "/uploads/Pagespeed_blogpakd.jpeg" },
       { label: "Mobile performance", note: "Mobile PageSpeed result for the content website.", image: "/uploads/pagespeed2_blogpakd.jpeg" },
@@ -49,11 +61,11 @@ const projects = [
   },
   {
     number: "04", title: "Budaya Indonesia", description: "Android project exploring Indonesian culture through a native mobile experience and REST API integration.",
-    tags: ["Kotlin", "REST API", "Android"], category: "Mobile" as ProjectCategory, accent: "pink", image: "/uploads/Budaya%20Indonesia.jpeg", tests: [],
+    tags: ["Kotlin", "REST API", "Android"], category: "Mobile" as ProjectCategory, accent: "pink", image: "/uploads/Budaya%20Indonesia.jpeg", github: "", tests: [],
   },
   {
     number: "05", title: "Technotainment", description: "Information platform developed through UKM-FT ITC to share competitions and provide participant registration.",
-    tags: ["PHP", "Web Development", "Content"], category: "Web Development" as ProjectCategory, accent: "cyan", image: "/uploads/foto%20itc.jpeg", tests: [],
+    tags: ["PHP", "Web Development", "Content"], category: "Web Development" as ProjectCategory, accent: "cyan", image: "/uploads/foto%20itc.jpeg", github: "", tests: [],
   },
 ];
 const certificates = [
@@ -209,7 +221,10 @@ export default function Home() {
 
       <section id="gallery" className="gallery section-pad"><div className="section-kicker">Hero files <span>/ 03</span></div><div className="section-heading-row gallery-heading"><h2>Moments behind<br /><em>the mission.</em></h2><p>A superhero dossier for the person, process, and little sparks that power the work.</p></div><div className="photo-grid">{galleryPhotos.map((photo, index) => <motion.button type="button" className={`photo-card photo-${photo.tone}`} key={photo.label} onClick={() => setActivePhoto(index)} {...motionProps} transition={{ delay: index * 0.12 }} aria-label={`Open ${photo.label}`}><span className="photo-placeholder"><img src={photo.src} alt={photo.caption} onError={(event) => { event.currentTarget.style.display = "none"; }} /></span><span className="photo-overlay"><span>{photo.label}</span><Expand size={17} /></span><span className="photo-caption">{photo.caption}</span></motion.button>)}</div></section>
 
-      <section id="projects" className="projects section-pad"><div className="section-kicker">Selected work <span>/ 03</span></div><div className="section-heading-row projects-heading"><h2>Proof of<br /><em>possibility.</em></h2><p>Every project is a chance to make something simpler, sharper, and more useful. Select a project to inspect its testing evidence.</p></div><div className="filter-row" role="group" aria-label="Filter projects">{(["All", "Web Development", "SEO", "Mobile"] as ProjectCategory[]).map((item) => <button key={item} className={filter === item ? "filter-active" : ""} onClick={() => setFilter(item)}>{item}</button>)}</div><div className="project-grid">{visibleProjects.map((project) => <motion.article className={`project-card accent-${project.accent}`} key={project.title} layout {...motionProps}><button type="button" className="project-card-button" onClick={() => setActiveProject(project)} aria-label={`Open details for ${project.title}`}><div className="project-top"><span>{project.number} / 05</span><ArrowUpRight size={19} /></div><div className="project-visual"><div className="mockup-window"><span /><span /><span /><img className="project-image" src={project.image} alt={`${project.title} project preview`} /></div></div><div className="project-info"><span className="project-category">{project.category}</span><h3>{project.title}</h3><p>{project.description}</p><div className="tag-row">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div><span className="project-inspect">View project details <ChevronRight size={15} /></span></div></button></motion.article>)}</div></section>
+      <section id="projects" className="projects section-pad"><div className="section-kicker">Selected work <span>/ 03</span></div><div className="section-heading-row projects-heading"><h2>Proof of<br /><em>possibility.</em></h2><p>Every project is a chance to make something simpler, sharper, and more useful. Select a project to inspect its testing evidence.</p></div><div className="filter-row" role="group" aria-label="Filter projects">{(["All", "Web Development", "SEO", "Mobile"] as ProjectCategory[]).map((item) => <button key={item} className={filter === item ? "filter-active" : ""} onClick={() => setFilter(item)}>{item}</button>)}</div><div className="project-grid">{visibleProjects.map((project) => <motion.article className={`project-card accent-${project.accent}`} key={project.title} layout {...motionProps}><div className="project-card-button" role="button" tabIndex={0} onClick={() => setActiveProject(project)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setActiveProject(project); }} aria-label={`Open details for ${project.title}`}><div className="project-top"><span>{project.number} / 05</span><ArrowUpRight size={19} /></div><div className="project-visual"><div className="mockup-window"><span /><span /><span /><img className="project-image" src={project.image} alt={`${project.title} project preview`} /></div></div><div className="project-info"><span className="project-category">{project.category}</span><h3>{project.title}</h3><p>{project.description}</p><div className="tag-row">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div><div className="project-actions" onClick={(event) => event.stopPropagation()}>
+  {project.link && <a className="project-live-link" href={project.link} target="_blank" rel="noreferrer">Open live project <ExternalLink size={16} /></a>}
+  {project.github && <a className="project-github-link" href={project.github} target="_blank" rel="noreferrer"><GitBranch size={16} /> GitHub</a>}
+</div><span className="project-inspect">View project details <ChevronRight size={15} /></span></div></div></motion.article>)}</div></section>
 
       <section id="certificates" className="certificates section-pad"><div className="section-kicker">Verified credentials <span>/ 04</span></div><div className="section-heading-row certificates-heading"><h2>Proof behind<br /><em>the mission.</em></h2><p>Certificates and field records that document the skills, experience, and discipline behind every build.</p></div><div className="certificate-grid">{certificates.map((certificate, index) => <motion.a className={`certificate-card certificate-card-${index + 1} ${certificate.isPdf ? "certificate-card-pdf" : ""}`} key={certificate.title} href={certificate.image} target="_blank" rel="noreferrer" {...motionProps} transition={{ delay: index * 0.08 }} aria-label={`Open ${certificate.title} certificate`}><span className={`certificate-image ${certificate.isPdf ? "certificate-pdf" : ""}`}>{certificate.isPdf ? <span className="certificate-pdf-preview" aria-hidden="true"><span className="certificate-pdf-mark">PDF</span><strong>DQLAB</strong><small>FREE CLASS</small></span> : <img src={certificate.image} alt={`${certificate.title} certificate`} loading="lazy" />}</span><span className="certificate-meta"><span className="certificate-number">{certificate.number} / 06</span><strong>{certificate.title}</strong><small>{certificate.issuer}</small><span className="certificate-open">Open certificate <ArrowUpRight size={14} /></span></span></motion.a>)}</div></section>
 
@@ -221,7 +236,10 @@ export default function Home() {
 
       {activePhoto !== null && <div className="photo-lightbox" role="dialog" aria-modal="true" aria-label="Photo preview" onClick={() => setActivePhoto(null)}><div className="lightbox-panel" onClick={(event) => event.stopPropagation()}><button className="lightbox-close" type="button" onClick={() => setActivePhoto(null)} aria-label="Close photo preview"><X size={20} /></button><div className={`lightbox-art photo-${galleryPhotos[activePhoto].tone}`}><span className="photo-placeholder"><img src={galleryPhotos[activePhoto].src} alt={galleryPhotos[activePhoto].caption} /></span></div><div className="lightbox-meta"><div><span>{galleryPhotos[activePhoto].label}</span><h3>{galleryPhotos[activePhoto].caption}</h3></div><div className="lightbox-controls"><button type="button" onClick={() => navigatePhoto(-1)} aria-label="Previous photo"><ArrowLeft size={18} /></button><span>{String(activePhoto + 1).padStart(2, "0")} / {String(galleryPhotos.length).padStart(2, "0")}</span><button type="button" onClick={() => navigatePhoto(1)} aria-label="Next photo"><ArrowRight size={18} /></button></div></div></div></div>}
 
-      {activeProject && <div className="project-lightbox" role="dialog" aria-modal="true" aria-label={`${activeProject.title} details`} onClick={() => setActiveProject(null)}><div className="project-detail-panel" onClick={(event) => event.stopPropagation()}><button className="lightbox-close" type="button" onClick={() => setActiveProject(null)} aria-label="Close project details"><X size={20} /></button><div className={`project-detail-visual accent-${activeProject.accent}`}><img src={activeProject.image} alt={`${activeProject.title} preview`} /></div><div className="project-detail-copy"><span className="project-category">{activeProject.category}</span><h2>{activeProject.title}</h2><p>{activeProject.description}</p><div className="tag-row">{activeProject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>{activeProject.link && <a className="button button-primary project-live-link" href={activeProject.link} target="_blank" rel="noreferrer">Open live project <ExternalLink size={16} /></a>}<div className="testing-heading"><span>Testing evidence</span><strong>{activeProject.tests.length ? `${activeProject.tests.length} result${activeProject.tests.length === 1 ? "" : "s"}` : "Not available"}</strong></div>{activeProject.tests.length ? <div className="testing-grid">{activeProject.tests.map((test) => <figure key={test.label} className="testing-card"><img src={test.image} alt={test.label} /><figcaption><strong>{test.label}</strong><span>{test.note}</span></figcaption></figure>)}</div> : <p className="testing-empty">No testing screenshot has been added for this project yet.</p>}</div></div></div>}
+      {activeProject && <div className="project-lightbox" role="dialog" aria-modal="true" aria-label={`${activeProject.title} details`} onClick={() => setActiveProject(null)}><div className="project-detail-panel" onClick={(event) => event.stopPropagation()}><button className="lightbox-close" type="button" onClick={() => setActiveProject(null)} aria-label="Close project details"><X size={20} /></button><div className={`project-detail-visual accent-${activeProject.accent}`}><img src={activeProject.image} alt={`${activeProject.title} preview`} /></div><div className="project-detail-copy"><span className="project-category">{activeProject.category}</span><h2>{activeProject.title}</h2><p>{activeProject.description}</p><div className="tag-row">{activeProject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div><div className="project-actions project-detail-actions">
+  {activeProject.link && <a className="button button-primary project-live-link" href={activeProject.link} target="_blank" rel="noreferrer">Open live project <ExternalLink size={16} /></a>}
+  {activeProject.github && <a className="button button-ghost project-github-link" href={activeProject.github} target="_blank" rel="noreferrer"><GitBranch size={16} /> GitHub</a>}
+</div><div className="testing-heading"><span>Testing evidence</span><strong>{activeProject.tests.length ? `${activeProject.tests.length} result${activeProject.tests.length === 1 ? "" : "s"}` : "Not available"}</strong></div>{activeProject.tests.length ? <div className="testing-grid">{activeProject.tests.map((test) => <figure key={test.label} className="testing-card"><img src={test.image} alt={test.label} /><figcaption><strong>{test.label}</strong><span>{test.note}</span></figcaption></figure>)}</div> : <p className="testing-empty">No testing screenshot has been added for this project yet.</p>}</div></div></div>}
 
       {themeTransition && <div className={`theme-epic-overlay theme-epic-${theme}`} aria-hidden="true"><div className="theme-epic-burst" /><div className="theme-epic-villain"><div className="theme-epic-head"><span className="theme-epic-eye theme-epic-eye-left" /><span className="theme-epic-eye theme-epic-eye-right" /></div><div className="theme-epic-shoulders" /><div className="theme-epic-gauntlet"><span className="infinity-stone stone-space" /><span className="infinity-stone stone-mind" /><span className="infinity-stone stone-reality" /><span className="infinity-stone stone-power" /><span className="infinity-stone stone-time" /><span className="infinity-stone stone-soul" /></div></div><div className="theme-epic-copy"><strong>THANOS PROTOCOL</strong><span>{theme === "light" ? "LIGHT REALM" : "DARK REALM"}{" // "}INFINITY STONES ONLINE</span></div></div>}
     </main>
